@@ -1,0 +1,51 @@
+*,*::before,*::after{
+    box-sizing: border-box;
+}
+
+html{
+    height: 100%;
+}
+
+main{
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+body{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+main{
+    flex-grow: 1;
+}
+
+ul,ol{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+li,h2,h3,p{
+    margin: 0;
+    padding: 0;
+}
+
+a{
+    text-decoration: none;
+    margin: 0;
+    padding: 0;
+}
+
+img{
+    vertical-align: middle;
+}
+
+h1{
+    @include visually-hidden
+}
+
