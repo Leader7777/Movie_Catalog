@@ -2,58 +2,66 @@
 const elForm = document.querySelector("#form");
 const elFormInput = document.querySelector("#InputName");
 const elFormSelect = document.querySelector("#category-select");
+const elFormSelectRating = document.querySelector("#rating-select");
+const elRating = document.querySelector("#InputRating");
 const elSearchResults = document.querySelector("#SearchResults");
 const elMovieWrapper = document.querySelector("#MovieWrapper");
 const elTemplateFilm = document.querySelector("#FilmTemplate").content;
 
 // Get movies
+
 const SlicedMovies = movies.slice(0,100);
 
-let NormolizeOfFilm = SlicedMovies.map(ItemMovie => {
+let NormolizeOfFilm = SlicedMovies.map(array => {
 
     return {
-        FilmIMG: `https://i.ytimg.com/vi/${ItemMovie.ytid}/mqdefault.jpg`,
-        FilmNAME: ItemMovie.Title.toString().toUpperCase(),
-        FilmCATEGORIES: ItemMovie.Categories, 
-        FilmRATINGS: ItemMovie.imdb_rating, 
-        FilmLINK: `https://www.youtube.com/watch?v=${ItemMovie.ytid}`  
+        FilmIMG: `https://i.ytimg.com/vi/${array.ytid}/mqdefault.jpg`,
+        FilmNAME: array.Title.toString().toUpperCase(),
+        FilmCATEGORIES: array.Categories, 
+        FilmRATINGS: array.imdb_rating, 
+        FilmLINK: `https://www.youtube.com/watch?v=${array.ytid}`  
     }
-})
 
-// Generate Categories
-function GeneretedCategories(array) {
-    let ArrayMovies = []
+});
+
+// Generate categories
+
+function GenerateCategories(array,PlaceOfArray) {
+    let ControlCategorie = []
 
     array.forEach(item => {
-        let ControlCategorie = item.FilmCATEGORIES.split("|")
+        let SplittedItem = item.FilmCATEGORIES.split("|")
 
-        ControlCategorie.forEach(item => {
-            if (!ArrayMovies.includes(item)) {
-                ArrayMovies.push(item)
+        SplittedItem.forEach(item => {
+            if (!ControlCategorie.includes(item)) {
+                ControlCategorie.push(item)
             }
         });
     });
 
-    ArrayMovies.sort()
+    ControlCategorie.sort()
 
     let CategoryFragment = document.createDocumentFragment()
 
-    ArrayMovies.forEach(item => {
+    ControlCategorie.forEach(item => {
+
         let CategoryOption = document.createElement("option")
         CategoryOption.value = item
         CategoryOption.textContent = item
         CategoryFragment.appendChild(CategoryOption)
-    });
-    elFormSelect.appendChild(CategoryFragment)
+    } )
+    PlaceOfArray.appendChild(CategoryFragment)
 }
 
-GeneretedCategories(NormolizeOfFilm)
+GenerateCategories(NormolizeOfFilm , elFormSelect)
 
-// Render movies
+// Render Movies
+
 function RenderMovies(array , PlaceOfArray) {
+
     PlaceOfArray.innerHTML = null
 
-    let elFragment = document.createDocumentFragment()
+    elFragment = document.createDocumentFragment()
 
     array.forEach(item => {
 
@@ -61,51 +69,96 @@ function RenderMovies(array , PlaceOfArray) {
 
         TemplateWrap.querySelector("#FilmImg").src = item.FilmIMG
         TemplateWrap.querySelector("#FilmName").textContent = item.FilmNAME
-        TemplateWrap.querySelector("#FilmCategories").textContent = item.FilmCATEGORIES.split("|").join(" ")
+        TemplateWrap.querySelector("#FilmCategories").textContent = item.FilmCATEGORIES.split("|").join(", ")
         TemplateWrap.querySelector("#FilmRating").textContent = item.FilmRATINGS
         TemplateWrap.querySelector("#FilmPlay").href = item.FilmLINK
 
-        elFragment.appendChild(TemplateWrap);
-    });
-
-    elMovieWrapper.appendChild(elFragment);
-    elSearchResults.textContent = array.length
+        elFragment.appendChild(TemplateWrap)
+    })
     
+    elSearchResults.textContent = array.length
+    PlaceOfArray.appendChild(elFragment)
 }
 
-RenderMovies(NormolizeOfFilm,elMovieWrapper);
+RenderMovies(NormolizeOfFilm,elMovieWrapper)
 
-// AddEvtList Form
-elForm.addEventListener("submit", (evt) => {
+var FindFunction = function(title , rating , categorie) {
+    
+    return NormolizeOfFilm.filter(function (item) {
+
+        let CategoryControl = categorie === "All" || item.FilmCATEGORIES.split("|").includes(categorie);
+
+        return item.FilmNAME.match(title) && item.FilmRATINGS >= rating && CategoryControl;
+    });
+};
+
+// AddEvtListener
+
+elForm.addEventListener("input" , (evt) => {
+
     evt.preventDefault()
 
-    let OptionSelect = elFormSelect.value
-    let ArraySide = []
+    let Title = elFormInput.value.trim()
+    let Rating = elRating.value
+    let Categorie = elFormSelect.value
+    let SortType = elFormSelectRating.value
 
-    if (OptionSelect === "All") {
-        ArraySide = NormolizeOfFilm
-    } else {
-        ArraySide = NormolizeOfFilm.filter(function (item) {
-            return item.FilmCATEGORIES.split("|").includes(OptionSelect)
-        })
+    let PatternTitle = new RegExp(Title , "gi")
+    let Result = FindFunction(PatternTitle , Rating , Categorie)
+
+    if (SortType === "High") {
+        Result.sort((a,b) => a - b)
     }
 
-    RenderMovies(ArraySide, elMovieWrapper)
+    if (SortType === "Low") {
+        Result.sort((b,a) => a - b)
+    }
+
+    RenderMovies(Result,elMovieWrapper)
+
 })
 
-elForm.addEventListener("input", (evt) => {
-    evt.preventDefault()
 
-    let InputName= elFormInput.value.toUpperCase()
-    let arraySide = []
 
-    if (arraySide = NormolizeOfFilm.filter(function (item) {
-        return item.FilmNAME.includes(InputName)
-    })) 
-    
 
-    RenderMovies(arraySide, elMovieWrapper)
-})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

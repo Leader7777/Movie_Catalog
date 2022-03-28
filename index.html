@@ -8,18 +8,28 @@
     <title>Catalog</title>
 </head>
 <body>
+    
     <header class="container">
         <h1 class="text-center py-4">Catalog Movies</h1>
     </header>
+
     <main class="container">
 
         <div class="row">
 
             <div class="col-4">
                 <form id="form" class="w-100">
-                    <input id="InputName" class="form-control w-75 my-3" type="text" placeholder="Film name" step="0.1" min="5">
+
+                    <input id="InputName" class="form-control w-75 my-3" type="text" placeholder="Film name">
+
+                    <input id="InputRating" class="form-control w-75 my-3" type="number" placeholder="Film rating" step="0.1" min="5">
+
                     <select class="form-control w-75 my-3" id="category-select">
                         <option value="All">All</option>
+                    </select>
+                    <select class="form-control w-75 my-3" id="rating-select">
+                        <option value="High">High</option>
+                        <option value="Low">Low</option>
                     </select>
                     <button class="btn btn-danger w-75" type="submit"> Search </button>
                 </form>
