@@ -156,19 +156,6 @@ var movies = [
     "ytid": "eMVw1pHVMAw"
   },
   {
-    "Title": "Silent Night",
-    "fulltitle": "Silent Night (2017)",
-    "movie_year": 2017,
-    "Categories": "Comedy|Drama",
-    "summary": "Adam unexpectedly visits his family house at Christmas after a few years of working abroad. No family member knows about his secret plans and the real reasons of his visit.",
-    "ImageURL": "https://hydramovies.com/wp-content/uploads/2018/04/Silent-Night-Movie-Poster.jpg",
-    "imdb_id": "tt7133554",
-    "imdb_rating": 7.5,
-    "runtime": 100,
-    "language": "English",
-    "ytid": "cA6BUYVkQoE"
-  },
-  {
     "Title": "Suicide Squad: Hell to Pay",
     "fulltitle": "Suicide Squad: Hell to Pay (2018)",
     "movie_year": 2018,

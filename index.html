@@ -5,65 +5,127 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./css/bootstrap.css">
+    <link rel="stylesheet" href="./css/main.css">
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
     <title>Catalog</title>
 </head>
 <body>
     
     <header class="container">
+
         <h1 class="text-center py-4">Catalog Movies</h1>
+
+        <div class="digital-clock d-flex justify-content-end">
+            <div class="time d-flex" style="border: 2px solid rgb(87, 87, 221);padding: 5px;background-color: rgb(27, 26, 26);box-shadow: 0 5px 10px 15px rgb(87, 87, 221);">
+
+               <div class="mx-3 fw-bold">
+                <span class="hours" style="color: aliceblue;">00</span>
+                <span class="dots" style="color: aliceblue;">:</span>
+                <span class="minutes" style="color: aliceblue;">00</span>
+                <span class="dots" style="color: aliceblue;">:</span>
+                <span class="seconds" style="color: aliceblue;">00</span>
+               </div>
+
+            </div>
+        </div>
+
     </header>
-
+    
     <main class="container">
-
+        
         <div class="row">
-
+            
             <div class="col-4">
                 <form id="form" class="w-100">
-
+                    
                     <input id="InputName" class="form-control w-75 my-3" type="text" placeholder="Film name">
-
+                    
                     <input id="InputRating" class="form-control w-75 my-3" type="number" placeholder="Film rating" step="0.1" min="5">
-
+                    
                     <select class="form-control w-75 my-3" id="category-select">
                         <option value="All">All</option>
                     </select>
                     <select class="form-control w-75 my-3" id="rating-select">
+                        <option value="Default">Default</option>
                         <option value="High">High</option>
                         <option value="Low">Low</option>
                     </select>
-                    <button class="btn btn-danger w-75" type="submit"> Search </button>
+                    <button class="btn btn-primary w-75" type="submit"> Search </button>
                 </form>
+                
+                <h3 class="my-4">Bookmarked Movies</h3>
+                
+                <ul class="list-group w-75 gap-3" id="bookmarkedList">
+                    
+                </ul>
             </div>
-
+            
             <div class="col-8">
-                <h2>Search results N: <span id="SearchResults"></span></h2>
-                <div class="alert alert-danger">Use the form on the left to search for a movie</div>
-             
-                    <div class="d-flex flex-wrap" id="MovieWrapper">
-
-                    </div>
-
-
+                <div class="alert alert-primary mt-4" id="alert"></div>
+                
+                <div class="d-flex flex-wrap" id="MovieWrapper">
+                    
+                </div>
+                        
             </div>
-
+            
         </div>
-
+        
     </main>
-
+    
     <template id="FilmTemplate">
         <div class="card my-1 w-50">
             
-        <img id="FilmImg" class="card-img-top w-100 h-50">
-
-        <div class="card-body">
-            <h2 id="FilmName" style="font-size: 14px;font-weight: 900;min-height: 35px;"></h2>
-            <p id="FilmCategories" style="font-weight: 900;color: blue;"></p>
-            <p id="FilmRating"></p>
-            <a id="FilmPlay" class="btn btn-outline-primary">Play</a>
-
-        </div>
+            <img id="FilmImg" class="card-img-top w-100 h-50">
+            
+            <div class="card-body">
+                
+                <h2 id="FilmName" style="color: black;font-size: 14px;font-weight: 900;min-height: 35px;"></h2>
+                <p id="FilmCategories" style="font-weight: 900;color: blue;"></p>
+                <p id="FilmRating" style="color: black;"></p>
+                <div class="btn-group w-100 gap-2">
+                    <a id="FilmPlay" class="btn btn-outline-danger btn-sm ">Play</a>
+                    <a id="FilmPlayBookmarked" class="btn btn-outline-success btn-sm ">Bookmarked</a>
+                    <a id="FilmPlayMoreInfo" class="btn btn-outline-info btn-sm " data-bs-toggle="modal" data-bs-target="#staticBackdrop">More Info</a>
+                </div>
+            </div>
         </div>
     </template>
+   
+    <template id="bookmarkedTemplate">
+        <div class="card">
+            
+            <img id="bookmarkedImg" class="card-img-top">
+            
+            <div class="card-body">
+                
+                <h2 id="bookmarkedName" style="font-size: 14px;font-weight: 900;min-height: 35px;color: black;"></h2>
+                
+                <button  id="bookmarkedBtn" type="button" class="btn btn-danger w-50">Delete</button>
+                <a id="bookmarkedBtnPlay" type="button" class="btn btn-primary w-25">Play</a>
+                
+            </div>
+        </div>
+    </template>
+
+  
+  <!-- Modal -->
+  <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" style="color: black;">
+    <div class="modal-dialog">
+      <div class="modal-content movie-modal" style="background-color: rgb(95, 235, 95);">
+        <div class="modal-header">
+          <h5 class="modal-title modal-heading" id="staticBackdropLabel">Salom</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body modal-text">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi, nulla tempore. Illum eum tempora quas neque repudiandae. Consequatur sunt adipisci nemo consectetur odio officia delectus fuga voluptatum commodi dicta, corrupti facere quos quisquam, sapiente obcaecati. Culpa non sit nobis in labore, illo minus officiis similique veritatis nihil iste dignissimos dolore repudiandae, sequi esse. Voluptate, minima sequi nulla accusamus veniam perspiciatis hic illo perferendis quam neque consequuntur dicta maxime aliquam sint? Neque placeat nesciunt a ab possimus consequuntur labore nam, natus corrupti saepe! Saepe ipsa fuga enim, unde consequuntur quaerat quos inventore delectus veniam natus sit eveniet hic quibusdam voluptatibus laborum!
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
     
     <script src="./js/bootstrap.js"></script>
     <script src="./js/movies.js"></script>
